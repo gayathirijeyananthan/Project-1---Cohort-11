@@ -2,13 +2,19 @@ const Book = require('../models/Books');
 
 // Create Book (Admin only)
 exports.createBook = async (req, res) => {
-    try {
-        const book = new Book(req.body);
-        await book.save();
-        res.status(201).json(book);
-    } catch (err) {
-        res.status(400).json({ error: err.message });
+  try {
+    const bookData = req.body;
+
+    if (req.file) {
+      bookData.image = req.file.path; // Cloudinary URL saved here
     }
+
+    const book = new Book(bookData);
+    await book.save();
+    res.status(201).json(book);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
 };
 
 // Get All Books

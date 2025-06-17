@@ -3,9 +3,14 @@ const router = express.Router();
 const { createBook, getAllBooks, getBookById, updateBook, deleteBook } = require('../controller/bookController');
 const { authMiddleware } = require('../middleware/authMiddleware');
 const { roleMiddleware } = require('../middleware/roleMiddleware');
+const upload = require('../middleware/upload');
+
 
 // Create Book - Admin only
 router.post('/create', authMiddleware, roleMiddleware('admin'), createBook);
+
+router.post('/', authMiddleware, roleMiddleware('admin'), upload.single('image'), createBook);
+
 
 // Get All Books - Public
 router.get('/', getAllBooks);
