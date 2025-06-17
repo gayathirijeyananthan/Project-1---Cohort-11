@@ -14,7 +14,7 @@ exports.register = async (req, res) => {
 
     const user = await User.create({ name, email, password, role });
     const token = generateToken(user);
-    res.status(201).json({ token, message:"User registered successfully"});
+    res.status(201).json({ token, message: "User registered successfully" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -29,7 +29,7 @@ exports.login = async (req, res) => {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
     const token = generateToken(user);
-    res.json({ token, user, message:"You successfully loged in" });
+    res.json({ token, user, message: "You successfully loged in" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -39,7 +39,8 @@ exports.login = async (req, res) => {
 // Get all users
 exports.getAllUsers = async (req, res) => {
   try {
-    const users = await User.find().select('-password');  // Don't send passwords
+    const users = await User.find();
+    // .select('-password');  // Don't send passwords
     res.json(users);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -53,7 +54,7 @@ exports.deleteUser = async (req, res) => {
     const user = await User.findById(req.params.id);
     if (!user) return res.status(404).json({ message: 'User not found' });
 
-    await user.remove();
+    await user.deleteOne();
     res.json({ message: 'User deleted successfully' });
   } catch (err) {
     res.status(500).json({ message: err.message });

@@ -9,7 +9,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use('api/user', authRoutes);
+app.use('/api/user', authRoutes);
 
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
