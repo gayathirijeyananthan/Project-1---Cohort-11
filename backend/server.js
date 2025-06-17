@@ -5,6 +5,8 @@ require('dotenv').config();
 
 const authRoutes = require('./routes/authRoutes');
 const bookRoutes = require('./routes/bookRoutes');
+const orderRoutes = require('./routes/orderRoutes');
+
 
 const app = express();
 app.use(cors());
@@ -13,6 +15,8 @@ app.use(express.urlencoded({ extended: true })); // for parsing application/x-ww
 
 app.use('/api/user', authRoutes);
 app.use('/api/book', bookRoutes);
+app.use('/api/order', orderRoutes);
+
 
 
 mongoose.connect(process.env.MONGO_URI)
