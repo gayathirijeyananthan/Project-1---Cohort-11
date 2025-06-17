@@ -5,6 +5,7 @@ const generateToken = (user) => {
   return jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1d' });
 };
 
+// Register a new user
 exports.register = async (req, res) => {
   const { name, email, password, role } = req.body;
   try {
@@ -19,6 +20,7 @@ exports.register = async (req, res) => {
   }
 };
 
+// Login a user
 exports.login = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -34,6 +36,7 @@ exports.login = async (req, res) => {
 };
 
 //Admin only
+// Get all users
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await User.find().select('-password');  // Don't send passwords
@@ -44,6 +47,7 @@ exports.getAllUsers = async (req, res) => {
 };
 
 //Admin only
+//Delete a user
 exports.deleteUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
@@ -51,6 +55,36 @@ exports.deleteUser = async (req, res) => {
 
     await user.remove();
     res.json({ message: 'User deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+//Admin only
+// Update user details
+exports.updateUser = async (req, res) => {
+  try {
+    const { name, email, role } = req.body;
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    user.name = name || user.name;
+    user.email = email || user.email;
+    user.role = role || user.role;
+
+    await user.save();
+
+    res.json({ message: 'User updated successfully', user });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// Get user profile by ID
+exports.getProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    res.json(user);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
