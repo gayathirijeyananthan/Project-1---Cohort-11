@@ -7,10 +7,13 @@ const upload = require('../middleware/upload');
 
 
 // Create Book - Admin only
-router.post('/create', authMiddleware, roleMiddleware('admin'), createBook);
-
-router.post('/', authMiddleware, roleMiddleware('admin'), upload.single('image'), createBook);
-
+router.post(
+  '/create',                    // POST /api/books/
+  authMiddleware,         // verify user is authenticated
+  roleMiddleware('admin'),// verify user has 'admin' role
+  upload.single('image'), // multer middleware to parse single file with field name 'image'
+  createBook              // your controller function to handle book creation
+);
 
 // Get All Books - Public
 router.get('/', getAllBooks);

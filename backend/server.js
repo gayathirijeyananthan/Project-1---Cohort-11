@@ -9,6 +9,7 @@ const bookRoutes = require('./routes/bookRoutes');
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 app.use('/api/user', authRoutes);
 app.use('/api/book', bookRoutes);

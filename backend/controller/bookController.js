@@ -3,17 +3,34 @@ const Book = require('../models/Books');
 // Create Book (Admin only)
 exports.createBook = async (req, res) => {
   try {
-    const bookData = req.body;
+    // req.body has the text fields
+    const { title, author, price, description, category, stock } = req.body;
 
-    if (req.file) {
-      bookData.image = req.file.path; // Cloudinary URL saved here
+    // Validate required fields
+    if (!title || !author || !price) {
+      return res.status(400).json({ error: 'title, author, and price are required' });
     }
 
-    const book = new Book(bookData);
-    await book.save();
-    res.status(201).json(book);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
+    // req.file has the uploaded image info (Cloudinary URL will be in req.file.path)
+    const image = req.file ? req.file.path : undefined;
+
+    // Create new book document
+    const newBook = new Book({
+      title,
+      author,
+      price,
+      description,
+      category,
+      stock: stock || 0,
+      image,
+    });
+
+    const savedBook = await newBook.save();
+
+    res.status(201).json(savedBook);
+  } catch (error) {
+    console.error('Error creating book:', error);
+    res.status(500).json({ error: 'Server error' });
   }
 };
 
