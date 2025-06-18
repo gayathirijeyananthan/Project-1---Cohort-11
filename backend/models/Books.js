@@ -8,6 +8,16 @@ const bookSchema = new mongoose.Schema({
     image: { type: String },  // you can store image URL
     category: { type: String },
     stock: { type: Number, default: 0 },
+    reviews: [
+        {
+            user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+            rating: { type: Number, required: true },
+            comment: { type: String },
+            createdAt: { type: Date, default: Date.now }
+        }
+    ],
+    averageRating: { type: Number, default: 0 },
+    numReviews: { type: Number, default: 0 },
     createdAt: { type: Date, default: Date.now }
 });
 

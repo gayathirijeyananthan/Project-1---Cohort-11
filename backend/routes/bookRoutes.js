@@ -4,6 +4,7 @@ const { createBook, getAllBooks, getBookById, updateBook, deleteBook } = require
 const { authMiddleware } = require('../middleware/authMiddleware');
 const { roleMiddleware } = require('../middleware/roleMiddleware');
 const upload = require('../middleware/upload');
+const { getReviews, addReview } = require('../controller/reviewController');
 
 
 // Create Book - Admin only
@@ -26,5 +27,8 @@ router.put('/:id', authMiddleware, roleMiddleware('admin'), updateBook);
 
 // Delete Book - Admin only
 router.delete('/:id', authMiddleware, roleMiddleware('admin'), deleteBook);
+
+router.get('/:id/reviews', getReviews);       // public route to get reviews
+router.post('/:id/review', authMiddleware, addReview);
 
 module.exports = router;
