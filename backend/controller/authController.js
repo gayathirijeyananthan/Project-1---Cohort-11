@@ -91,3 +91,33 @@ exports.getProfile = async (req, res) => {
   }
 };
 
+//User can update their own profile
+// Update own profile
+exports.updateProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id); // Current logged-in user
+
+    if (user) {
+      user.name = req.body.name || user.name;
+      user.email = req.body.email || user.email;
+
+      // Update password if provided
+      if (req.body.password) {
+        user.password = req.body.password; // must hash in User model pre-save hook
+      }
+
+      const updatedUser = await user.save();
+
+      res.json({
+        _id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        role: updatedUser.role,
+      });
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
