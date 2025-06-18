@@ -6,6 +6,7 @@ require('dotenv').config();
 const authRoutes = require('./routes/authRoutes');
 const bookRoutes = require('./routes/bookRoutes');
 const orderRoutes = require('./routes/orderRoutes');
+const cartRoutes = require('./routes/cartRoutes');
 
 
 const app = express();
@@ -16,6 +17,8 @@ app.use(express.urlencoded({ extended: true })); // for parsing application/x-ww
 app.use('/api/user', authRoutes);
 app.use('/api/book', bookRoutes);
 app.use('/api/order', orderRoutes);
+app.use('/api', cartRoutes);
+
 
 
 

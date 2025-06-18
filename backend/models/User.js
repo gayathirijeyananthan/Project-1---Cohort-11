@@ -5,7 +5,13 @@ const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  role: { type: String, enum: ['admin','user'], default: 'user' }
+  role: { type: String, enum: ['admin','user'], default: 'user' },
+   cart: [
+    {
+      book: { type: mongoose.Schema.Types.ObjectId, ref: 'Book' },
+      quantity: { type: Number, default: 1 },
+    },
+  ]
 });
 
 userSchema.pre('save', async function (next) {
