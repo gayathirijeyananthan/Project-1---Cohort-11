@@ -1,4 +1,5 @@
-const stripe = require('../config/stripe');
+const stripe = require('../config/stripe.js');
+const Order = require('../models/Order.js'); // Assuming you have an Order model
 
 exports.createPaymentIntent = async (req, res) => {
   try {
