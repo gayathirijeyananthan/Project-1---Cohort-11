@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/navbar';
+import { ToastContainer } from 'react-toastify'; // import this
+import 'react-toastify/dist/ReactToastify.css';  // import CSS for toastify
 
 import HomePage from './pages/Homepage';
 import BooksPage from './pages/Bookpage';
@@ -20,6 +22,7 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
 
       </Routes>
+      <ToastContainer />
     </BrowserRouter>
   );
 }

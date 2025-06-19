@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';  // <-- import Link here
 import '../css/Form.css'; // Import your CSS file for styling
+import { toast } from 'react-toastify'; // import toast here
+
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -14,7 +16,7 @@ const LoginForm = () => {
     e.preventDefault();
 
     if (!formData.email || !formData.password) {
-      setMessage('Please fill all fields');
+      toast.error('Please fill all fields'); // show toast
       return;
     }
 
@@ -28,13 +30,16 @@ const LoginForm = () => {
       const data = await res.json();
 
       if (res.ok) {
-        setMessage('Login successful!');
+        toast.success('Login successful!'); // success toast
+
         // TODO: handle token/session and redirect
       } else {
-        setMessage(data.message || 'Login failed');
+        toast.error(data.message || 'Login failed'); // show toast
+
       }
     } catch (error) {
-      setMessage('Server error');
+      toast.error('Server error');
+
     }
   };
 

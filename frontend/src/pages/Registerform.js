@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../css/Form.css'; // Import your CSS file for styling
+import { toast } from 'react-toastify'; // import toast here
 
 const RegisterForm = () => {
     const [formData, setFormData] = useState({
@@ -19,7 +20,8 @@ const RegisterForm = () => {
 
         // Basic validation
         if (!formData.name || !formData.email || !formData.password) {
-            setMessage('Please fill all fields');
+            toast.error('Please fill all fields'); // show toast
+
             return;
         }
 
@@ -33,13 +35,15 @@ const RegisterForm = () => {
             const data = await res.json();
 
             if (res.ok) {
-                setMessage('Registration successful! You can login now.');
+                toast.success('Register Successful'); // show toast
+
                 setFormData({ name: '', email: '', password: '' });
             } else {
-                setMessage(data.message || 'Registration failed');
+                toast.error(data.message || 'Registration failed'); // show toast
+
             }
         } catch (error) {
-            setMessage('Server error');
+            toast.error('Server error'); // show toast
         }
     };
 
