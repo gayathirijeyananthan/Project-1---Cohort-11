@@ -36,7 +36,7 @@ backgroundImage: `url(${book})`,
           bestsellers, and timeless classics.
         </p>
         <a
-          href="#browse"
+          href="/books"
           style={{
             backgroundColor: '#2563eb',
             color: 'white',
