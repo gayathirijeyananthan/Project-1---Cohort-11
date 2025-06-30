@@ -3,13 +3,42 @@ import React, { useEffect, useState } from 'react';
 const BooksPage = () => {
   const [books, setBooks] = useState([]);
 
-  // Fetch books from backend when page loads
   useEffect(() => {
-    fetch('http://localhost:5000/api/book') // your backend API endpoint
+    fetch('http://localhost:5000/api/book')
       .then((res) => res.json())
       .then((data) => setBooks(data))
       .catch((err) => console.error('Error fetching books:', err));
   }, []);
+
+  const handleAddToCart = async (bookId) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('Please log in first.');
+      return;
+    }
+
+    try {
+      const res = await fetch('http://localhost:5000/api/cart', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ bookId, quantity: 1 }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert('Book added to cart!');
+      } else {
+        alert(data.message || 'Failed to add to cart');
+      }
+    } catch (error) {
+      console.error('Add to cart error:', error);
+      alert('Something went wrong');
+    }
+  };
 
   return (
     <section style={{ padding: '40px' }}>
@@ -31,7 +60,7 @@ const BooksPage = () => {
             }}
           >
             <img
-              src={book.image} // book image url
+              src={book.image}
               alt={book.title}
               style={{ width: '100%', height: '200px', objectFit: 'cover', marginBottom: '10px' }}
             />
@@ -41,6 +70,7 @@ const BooksPage = () => {
 
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <button
+                onClick={() => handleAddToCart(book._id)}
                 style={{
                   padding: '10px 15px',
                   backgroundColor: '#10b981',

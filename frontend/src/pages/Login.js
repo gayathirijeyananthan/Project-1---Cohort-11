@@ -31,6 +31,7 @@ const LoginForm = () => {
 
       if (res.ok) {
         toast.success('Login successful!'); // success toast
+         localStorage.setItem('token', data.token);
 
         // TODO: handle token/session and redirect
       } else {
