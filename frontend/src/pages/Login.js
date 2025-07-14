@@ -38,6 +38,11 @@ const LoginForm = () => {
         // success toast
         localStorage.setItem('token', data.token);
 
+        if (data.user && data.user.role === 'admin') {
+          navigate('/admin');
+        } else {
+          navigate('/books'); 
+        }
         // TODO: handle token/session and redirect
       } else {
         toast.error(data.message || 'Login failed'); // show toast
