@@ -9,6 +9,7 @@ import BooksPage from './pages/Bookpage';
 import CartPage from './pages/Cartpage';
 import LoginPage from './pages/Login';
 import RegisterPage from './pages/Registerform';
+import AdminDashboard from './pages/Admin/AdminDahboard';
 
 function App() {
   return (
@@ -20,6 +21,8 @@ function App() {
         <Route path="/cart" element={<CartPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+        {/* Add more routes as needed */}
 
       </Routes>
       <ToastContainer />
