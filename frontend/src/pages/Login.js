@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';  // <-- import Link here
 import '../css/Form.css'; // Import your CSS file for styling
-import { toast } from 'react-toastify'; // import toast here
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+// import toast here
 
 
 const LoginForm = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [message, setMessage] = useState('');
 
@@ -30,8 +33,10 @@ const LoginForm = () => {
       const data = await res.json();
 
       if (res.ok) {
-        toast.success('Login successful!'); // success toast
-         localStorage.setItem('token', data.token);
+        toast.success('Login successful!');
+        navigate('/books');
+        // success toast
+        localStorage.setItem('token', data.token);
 
         // TODO: handle token/session and redirect
       } else {

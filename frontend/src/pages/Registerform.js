@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import '../css/Form.css'; // Import your CSS file for styling
 import { toast } from 'react-toastify'; // import toast here
+import { useNavigate } from 'react-router-dom';
 
 const RegisterForm = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -36,6 +38,7 @@ const RegisterForm = () => {
 
             if (res.ok) {
                 toast.success('Register Successful'); // show toast
+                navigate('/login');
 
                 setFormData({ name: '', email: '', password: '' });
             } else {
