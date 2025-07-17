@@ -12,7 +12,7 @@ exports.stripeWebhook = async (req, res) => {
 
   try {
     // Verify Stripe signature
-    event = stripe.webhooks.constructEvent(req.rawBody, sig, endpointSecret);
+    event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
   } catch (err) {
     console.error('❌ Webhook signature verification failed:', err.message);
     return res.status(400).send(`Webhook Error: ${err.message}`);
@@ -21,6 +21,8 @@ exports.stripeWebhook = async (req, res) => {
   // Only handle successful payment
   if (event.type === 'payment_intent.succeeded') {
     const paymentIntent = event.data.object;
+          console.log('PaymentIntent was successful:', paymentIntent.id);
+
 
     // Get order ID from metadata (should be passed when creating the paymentIntent)
     const orderId = paymentIntent.metadata.orderId;

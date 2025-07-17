@@ -22,11 +22,11 @@ const AdminDashboard = () => {
         .then(res => setUsers(res.data))
         .catch(err => console.error(err));
     } else if (activeTab === 'orders') {
-      axios.get('http://localhost:5000/api/order/myorders', config)
+      axios.get('http://localhost:5000/api/order', config)
         .then(res => setOrders(res.data))
         .catch(err => console.error(err));
     } else if (activeTab === 'products') {
-      axios.get('/api/products')
+      axios.get('/api/book')
         .then(res => setProducts(res.data))
         .catch(err => console.error(err));
     }
