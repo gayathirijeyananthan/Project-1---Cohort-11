@@ -1,53 +1,34 @@
 const stripe = require('../config/stripe.js');
-const Order = require('../models/Order.js'); // Assuming you have an Order model
+const Order = require('../models/Order.js');
 
 exports.createPaymentIntent = async (req, res) => {
   try {
     const { orderId } = req.body;
 
-    // Fetch order from DB
+    // 1. Fetch order
     const order = await Order.findById(orderId);
     if (!order) return res.status(404).json({ message: 'Order not found' });
 
-    // Create Stripe PaymentIntent
+    // 2. Prevent duplicate payment
+    if (order.paymentStatus === 'completed') {
+      return res.status(400).json({ message: 'Order already paid' });
+    }
+
+    // 3. Create Stripe PaymentIntent
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(order.totalPrice * 100), // in cents
-      currency: 'usd', // or your currency
-      metadata: { orderId: order._id.toString() },
+      amount: Math.round(order.totalPrice * 100),
+      currency: 'usd',
+      payment_method_types: ['card'],
+      metadata: {
+        orderId: order._id.toString()
+      }
     });
 
+    // 4. Send client secret to frontend
     res.json({ clientSecret: paymentIntent.client_secret });
+
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error('❌ Stripe Payment Intent Error:', error);
+    res.status(500).json({ message: 'Failed to create payment intent' });
   }
-};
-
-//Stripe will send event notifications to your backend via webhooks. You need to verify and handle them:
-
-
-exports.stripeWebhook = async (req, res) => {
-  const sig = req.headers['stripe-signature'];
-  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
-
-  let event;
-
-  try {
-    event = stripe.webhooks.constructEvent(req.rawBody, sig, endpointSecret);
-  } catch (err) {
-    console.log('Webhook signature verification failed.', err.message);
-    return res.status(400).send(`Webhook Error: ${err.message}`);
-  }
-
-  if (event.type === 'payment_intent.succeeded') {
-    const paymentIntent = event.data.object;
-
-    const orderId = paymentIntent.metadata.orderId;
-
-    // Update order status in DB to 'Processing' or 'Paid'
-    await Order.findByIdAndUpdate(orderId, { status: 'Processing' });
-
-    console.log(`Payment for order ${orderId} succeeded.`);
-  }
-
-  res.json({ received: true });
 };
