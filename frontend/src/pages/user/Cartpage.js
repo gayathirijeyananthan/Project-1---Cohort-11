@@ -42,6 +42,14 @@ const CartPage = () => {
     }
   };
 
+  const handleCheckout = () => {
+  // This is a placeholder. You can later redirect or connect to Stripe, etc.
+  alert('Proceeding to checkout...\nTotal: $' + calculateTotal());
+  
+  // Example of navigation to /checkout page
+  // navigate('/checkout'); // if using react-router-dom
+};
+
   const handleRemove = async (bookId) => {
     try {
       await axios.delete(`http://localhost:5000/api/cart/${bookId}`, config);
@@ -89,6 +97,12 @@ const CartPage = () => {
 
           <div className="cart-total">
             <h3>Total: ${calculateTotal()}</h3>
+          </div>
+
+          <div className="checkout-section">
+            <button className="checkout-button" onClick={() => handleCheckout()}>
+              Proceed to Checkout
+            </button>
           </div>
         </>
       )}
