@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import './CartPage.css'; // ✅ Import the external CSS
 
 const CartPage = () => {
   const [cart, setCart] = useState([]);
@@ -7,14 +8,12 @@ const CartPage = () => {
 
   const token = localStorage.getItem('token');
 
-  // Reusable config with token
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
 
-  // Fetch cart items
   const loadCart = async () => {
     try {
       const res = await axios.get('http://localhost:5000/api/cart', config);
@@ -30,7 +29,6 @@ const CartPage = () => {
     loadCart();
   }, []);
 
-  // Update quantity
   const handleQuantityChange = async (bookId, quantity) => {
     try {
       await axios.put(
@@ -44,7 +42,6 @@ const CartPage = () => {
     }
   };
 
-  // Remove item from cart
   const handleRemove = async (bookId) => {
     try {
       await axios.delete(`http://localhost:5000/api/cart/${bookId}`, config);
@@ -57,23 +54,31 @@ const CartPage = () => {
   if (loading) return <p>Loading cart...</p>;
 
   return (
-    <div>
-      <h2>Your Cart</h2>
+    <div className="cart-container">
+      <h2 className="cart-title">Your Cart</h2>
       {cart.length === 0 ? (
         <p>Cart is empty</p>
       ) : (
         cart.map((item) => (
-          <div key={item.book._id} style={{ borderBottom: '1px solid #ccc', marginBottom: '10px' }}>
-            <h4>{item.book.title}</h4>
-            <p>Author: {item.book.author}</p>
-            <p>Price: ${item.book.price}</p>
-            <input
-              type="number"
-              min="1"
-              value={item.quantity}
-              onChange={(e) => handleQuantityChange(item.book._id, parseInt(e.target.value))}
-            />
-            <button onClick={() => handleRemove(item.book._id)}>Remove</button>
+          <div className="cart-item" key={item.book._id}>
+            <div className="cart-details">
+              <h4>{item.book.title}</h4>
+              <div className="cart-info">
+                <p>Author: {item.book.author}</p>
+                <p>Price: ${item.book.price}</p>
+              </div>
+            </div>
+            <div className="cart-controls">
+              <input
+                type="number"
+                min="1"
+                value={item.quantity}
+                onChange={(e) =>
+                  handleQuantityChange(item.book._id, parseInt(e.target.value))
+                }
+              />
+              <button onClick={() => handleRemove(item.book._id)}>Remove</button>
+            </div>
           </div>
         ))
       )}

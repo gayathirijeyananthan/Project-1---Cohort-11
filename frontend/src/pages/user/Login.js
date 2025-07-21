@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';  // <-- import Link here
-import '../css/Form.css'; // Import your CSS file for styling
+import '../../css/Form.css'; // Import your CSS file for styling
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 // import toast here

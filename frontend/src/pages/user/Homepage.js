@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import book from '../components/assets/bg.jpg';
+import book from '../../components/assets/bg.jpg';
 
 const HomePage = () => {
   const navigate = useNavigate();

@@ -4,11 +4,11 @@ import Navbar from './components/navbar';
 import { ToastContainer } from 'react-toastify'; // import this
 import 'react-toastify/dist/ReactToastify.css';  // import CSS for toastify
 
-import HomePage from './pages/Homepage';
-import BooksPage from './pages/Bookpage';
-import CartPage from './pages/Cartpage';
-import LoginPage from './pages/Login';
-import RegisterPage from './pages/Registerform';
+import HomePage from './pages/user/Homepage';
+import BooksPage from './pages/user/Bookpage';
+import CartPage from './pages/user/Cartpage';
+import LoginPage from './pages/user/Login';
+import RegisterPage from './pages/user/Registerform';
 import AdminDashboard from './pages/Admin/AdminDahboard';
 
 function App() {
