@@ -10,6 +10,7 @@ import CartPage from './pages/user/Cartpage';
 import LoginPage from './pages/user/Login';
 import RegisterPage from './pages/user/Registerform';
 import AdminDashboard from './pages/Admin/AdminDahboard';
+import CheckoutPage from './pages/user/CheckoutPage'; // Import CheckoutPage
 
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/checkout" element={<CheckoutPage />} />
 
-        
+
 
         {/* Add more routes as needed */}
 

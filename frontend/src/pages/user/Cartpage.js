@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './CartPage.css'; // ✅ Import the external CSS
 
@@ -41,8 +42,10 @@ const CartPage = () => {
       console.error('Failed to update quantity:', err);
     }
   };
+  const navigate = useNavigate();
 
   const handleCheckout = () => {
+  
   localStorage.setItem('cartTotal', calculateTotal());
   navigate('/checkout');
 };
