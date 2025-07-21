@@ -43,12 +43,10 @@ const CartPage = () => {
   };
 
   const handleCheckout = () => {
-  // This is a placeholder. You can later redirect or connect to Stripe, etc.
-  alert('Proceeding to checkout...\nTotal: $' + calculateTotal());
-  
-  // Example of navigation to /checkout page
-  // navigate('/checkout'); // if using react-router-dom
+  localStorage.setItem('cartTotal', calculateTotal());
+  navigate('/checkout');
 };
+
 
   const handleRemove = async (bookId) => {
     try {

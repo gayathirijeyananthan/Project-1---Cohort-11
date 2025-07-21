@@ -22,6 +22,10 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
+
+        
+
         {/* Add more routes as needed */}
 
       </Routes>
